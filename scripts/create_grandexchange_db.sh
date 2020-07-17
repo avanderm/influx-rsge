@@ -1,6 +1,6 @@
 #!/bin/bash
 influx <<EOF
-CREATE DATABASE IF NOT EXISTS grandexchange
+CREATE DATABASE grandexchange
 EOF
 
 # crontab -l > mycron

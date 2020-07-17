@@ -19,10 +19,12 @@ wget https://dl.influxdata.com/kapacitor/releases/kapacitor-1.5.5-1.x86_64.rpm
 sudo yum localinstall kapacitor-1.5.5-1.x86_64.rpm -y
 
 sudo yum install gcc openssl-devel bzip2-devel libffi-devel jq -y
-cd /opt
-sudo wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
-sudo tar xzf Python-3.8.2.tgz
-cd Python-3.8.2
-sudo ./configure --enable-optimizations
-sudo make altinstall
-sudo rm -f /opt/Python-3.8.2.tgz
+if ! command -v "python3.8" &> /dev/null; then
+    cd /opt
+    sudo wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+    sudo tar xzf Python-3.8.2.tgz
+    cd Python-3.8.2
+    sudo ./configure --enable-optimizations
+    sudo make altinstall
+    sudo rm -f /opt/Python-3.8.2.tgz
+fi
