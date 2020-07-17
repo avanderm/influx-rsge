@@ -15,4 +15,4 @@ sudo yum localinstall chronograf-1.8.5.x86_64.rpm -y
 wget https://dl.influxdata.com/kapacitor/releases/kapacitor-1.5.5-1.x86_64.rpm
 sudo yum localinstall kapacitor-1.5.5-1.x86_64.rpm -y
 
-sudo yum install jq -y
+sudo yum install jq python3 -y
