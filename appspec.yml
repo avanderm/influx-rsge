@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /src
+  - source: /build
     destination: /home/grandexchange
   - source: /scripts/check_for_updates.sh
     destination: /home/grandexchange
