@@ -12,5 +12,5 @@ phases:
 artifacts:
   files:
     - appspec.yml
-    - $BUILD_DIR/*
+    - $BUILD_DIR/**/*
     - scripts/*
