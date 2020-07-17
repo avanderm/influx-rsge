@@ -19,6 +19,9 @@ hooks:
     - location: scripts/start_tick_stack.sh
       timeout: 300
       runas: root
+    - location: scripts/create_grandexchange_db.sh
+      timeout: 300
+      runas: root
   ApplicationStop:
     - location: scripts/stop_tick_stack.sh
       timeout: 300
