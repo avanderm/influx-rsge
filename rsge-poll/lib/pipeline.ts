@@ -26,7 +26,7 @@ export class PipelineStack extends cdk.Stack {
     const buildProject = new codebuild.PipelineProject(this, 'BuildProject', {
         buildSpec: codebuild.BuildSpec.fromSourceFilename('buildspec.yml'),
         environment: {
-            buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2,
+            buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_3,
             computeType: codebuild.ComputeType.SMALL,
             privileged: true,
             environmentVariables: {
