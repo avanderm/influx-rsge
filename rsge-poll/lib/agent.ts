@@ -10,7 +10,7 @@ export class AgentStack extends cdk.Stack {
 
     const s3Permissions = new iam.PolicyStatement();
     s3Permissions.addResources(
-      `arn:aws:s3:::aws-codedeploy-${account}-${region}/*`
+      `arn:aws:s3:::aws-codepipeline-${account}-${region}/*`
     );
     s3Permissions.addActions(
       's3:Get*',
@@ -23,7 +23,11 @@ export class AgentStack extends cdk.Stack {
       ]
     });
 
-    const deployUser = new iam.User(this, 'LightSailCodeDeployUser');
+    const deployUser = new iam.User(this, 'LightSailCodeDeployUser', {
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchFullAccess')
+      ]
+    });
     deployPolicy.attachToUser(deployUser);
   }
 }
