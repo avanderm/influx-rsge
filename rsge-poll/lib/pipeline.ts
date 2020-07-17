@@ -1,4 +1,5 @@
 import * as cdk from '@aws-cdk/core';
+import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as codedeploy from '@aws-cdk/aws-codedeploy';
 import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
@@ -22,9 +23,22 @@ export class PipelineStack extends cdk.Stack {
         ]
     });
 
-    // const deploymentApplication = new codedeploy.ServerApplication(this, 'Application');
+    const buildProject = new codebuild.PipelineProject(this, 'BuildProject', {
+        buildSpec: codebuild.BuildSpec.fromSourceFilename('buildspec.yml'),
+        environment: {
+            buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2,
+            computeType: codebuild.ComputeType.SMALL,
+            privileged: true,
+            environmentVariables: {
+                'BUILD_DIR': {
+                    value: 'build',
+                    type: codebuild.BuildEnvironmentVariableType.PLAINTEXT
+                }
+            }
+        }
+    });
+
     const deploymentGroup = new codedeploy.ServerDeploymentGroup(this, 'DeploymentGroup', {
-        // application: deploymentApplication,
         onPremiseInstanceTags: new codedeploy.InstanceTagSet({
             'Name': [
                 'InfluxDB'
@@ -34,6 +48,7 @@ export class PipelineStack extends cdk.Stack {
     });
 
     const sourceOutput = new codepipeline.Artifact();
+    const buildOutput = new codepipeline.Artifact();
 
     new codepipeline.Pipeline(this, 'DeploymentPipeline', {
         artifactBucket: props.artifactBucket,
@@ -53,12 +68,24 @@ export class PipelineStack extends cdk.Stack {
                 ]
             },
             {
+                stageName: 'Build',
+                actions: [
+                    new codepipeline_actions.CodeBuildAction({
+                        actionName: 'Build',
+                        project: buildProject,
+                        input: sourceOutput,
+                        outputs: [buildOutput],
+                        type: codepipeline_actions.CodeBuildActionType.BUILD
+                    })
+                ]
+            },
+            {
                 stageName: 'Deploy',
                 actions: [
                     new codepipeline_actions.CodeDeployServerDeployAction({
                         actionName: 'Deploy',
                         deploymentGroup: deploymentGroup,
-                        input: sourceOutput
+                        input: buildOutput
                     })
                 ]
             }
