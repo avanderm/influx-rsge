@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /src
-    destination: /opt/
+    destination: /home/grandexchange
   - source: /scripts/check_for_updates.sh
-    destination: /opt/
+    destination: /home/grandexchange
 permissions:
   - group: root
     mode: 755
