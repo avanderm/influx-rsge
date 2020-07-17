@@ -227,9 +227,6 @@ def load(ctx):
     client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"])
 
     for category in categories_generator():
-        if category.id in (1, 41, 2, 3, 4, 5, 6, 7, 8, 9, 10, 40):
-            continue
-
         measurements = []
 
         logger.info("Processing category %s (%s): %s items",
