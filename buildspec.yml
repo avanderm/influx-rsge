@@ -7,10 +7,10 @@ phases:
     commands:
   build:
     commands:
-      - cp -R src $(BUILD_DIR)
-      - pip install -r requirements.txt -t ./$(BUILD_DIR)
+      - cp -R src $BUILD_DIR
+      - pip install -r requirements.txt -t ./$BUILD_DIR
 artifacts:
   files:
     - appspec.yml
-    - $(BUILD_DIR)/*
+    - $BUILD_DIR/*
     - scripts/*
