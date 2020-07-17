@@ -8,7 +8,7 @@ files:
 permissions:
   - group: root
     mode: 755
-    object: /opt/check_for_updates.sh
+    object: /home/grandexchange/poll_grandexchange.sh
     user: root
 hooks:
   BeforeInstall:
@@ -19,7 +19,7 @@ hooks:
     - location: scripts/start_tick_stack.sh
       timeout: 300
       runas: root
-    - location: scripts/create_grandexchange_db.sh
+    - location: scripts/setup.sh
       timeout: 300
       runas: root
   ApplicationStop:
