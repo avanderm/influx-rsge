@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /src
+    destination: /opt/
+  - source: /scripts/check_for_updates.sh
+    destination: /opt/
+permissions:
+  - group: root
+    mode: 755
+    object: /opt/check_for_updates.sh
+    user: root
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_tick_stack.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_tick_stack.sh
+      timeout: 300
+      runas: root
