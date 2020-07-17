@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /build
     destination: /home/grandexchange
-  - source: /scripts/check_for_updates.sh
+  - source: /scripts/poll_grandexchange.sh
     destination: /home/grandexchange
 permissions:
   - group: root
