@@ -7,7 +7,7 @@ phases:
     commands:
   build:
     commands:
-      - cp src $(BUILD_DIR)
+      - cp -R src $(BUILD_DIR)
       - pip install -r requirements.txt -t ./$(BUILD_DIR)
 artifacts:
   files:
