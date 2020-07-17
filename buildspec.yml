@@ -1,7 +1,8 @@
 version: 0.2
 phases:
   install:
-    runtime-versions: python3.8
+    runtime-versions:
+      - python: 3.8
   pre_build:
     - cp src $(BUILD_DIR)
     - pip install -r requirements.txt -t ./$(BUILD_DIR)
