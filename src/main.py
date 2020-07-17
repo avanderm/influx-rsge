@@ -4,6 +4,7 @@ from influxdb import InfluxDBClient
 from json import JSONDecodeError
 from typing import Iterator
 from urllib3.exceptions import MaxRetryError
+import click
 import os
 import logging
 import re
@@ -193,8 +194,17 @@ def write(measurements, client):
     client.write_points(map(lambda x: x.to_dict(), measurements))
 
 
-def poll(database):
-    client = InfluxDBClient("host.docker.internal", 8086, "root", "root", database)
+@click.group()
+@click.option("--database", "-d", help="Influx database")
+@click.pass_context
+def cli(ctx, database):
+    ctx.ensure_object(dict)
+    ctx.obj["DATABASE"] = database
+
+@cli.command()
+@click.pass_context
+def poll(ctx):
+    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"])
     timestamp = datetime.now()
 
     for category in categories_generator():
@@ -211,8 +221,10 @@ def poll(database):
         write(measurements, client)
 
 
-def load_historical_prices(database):
-    client = InfluxDBClient("host.docker.internal", 8086, "root", "root", database)
+@cli.command()
+@click.pass_context
+def load(ctx):
+    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"])
 
     for category in categories_generator():
         if category.id in (1, 41, 2, 3, 4, 5, 6, 7, 8, 9, 10, 40):
@@ -229,6 +241,4 @@ def load_historical_prices(database):
 
 
 if __name__ == '__main__':
-    database = os.getenv("DATABASE")
-    # poll(database)
-    load_historical_prices(database)
+    cli()
