@@ -4,8 +4,11 @@ phases:
     runtime-versions:
       python: 3.8
   pre_build:
-    - cp src $(BUILD_DIR)
-    - pip install -r requirements.txt -t ./$(BUILD_DIR)
+    commands:
+  build:
+    commands:
+      - cp src $(BUILD_DIR)
+      - pip install -r requirements.txt -t ./$(BUILD_DIR)
 artifacts:
   files:
     - appspec.yml
