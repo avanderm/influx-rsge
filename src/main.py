@@ -155,7 +155,7 @@ class PriceMeasurement:
                     "b": 1000000000
                 }[m.group(2)]
 
-                return base * modifier
+                return int(base * modifier)
             else:
                 return int(price.replace(",", ""))
 
