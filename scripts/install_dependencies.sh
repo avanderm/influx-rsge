@@ -18,6 +18,21 @@ sudo yum localinstall chronograf-1.8.5.x86_64.rpm -y
 wget https://dl.influxdata.com/kapacitor/releases/kapacitor-1.5.5-1.x86_64.rpm
 sudo yum localinstall kapacitor-1.5.5-1.x86_64.rpm -y
 
+# Grafana
+cat <<EOF | sudo tee /etc/yum.repos.d/grafana.repo
+[grafana]
+name=grafana
+baseurl=https://packages.grafana.com/oss/rpm
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOF
+
+sudo yum install grafana -y
+
 sudo yum install gcc openssl-devel bzip2-devel libffi-devel jq -y
 if ! command -v "python3.8" &> /dev/null; then
     cd /opt
