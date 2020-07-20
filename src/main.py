@@ -204,7 +204,7 @@ def cli(ctx, database):
 @cli.command()
 @click.pass_context
 def poll(ctx):
-    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"])
+    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"], ssl=True)
     timestamp = datetime.now()
 
     for category in categories_generator():
@@ -224,7 +224,7 @@ def poll(ctx):
 @cli.command()
 @click.pass_context
 def load(ctx):
-    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"])
+    client = InfluxDBClient("localhost", 8086, "root", "root", ctx.obj["DATABASE"], ssl=True)
 
     for category in categories_generator():
         measurements = []
